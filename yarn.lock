@@ -23,11 +23,6 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@dw/hammerjs@^1.0.0":
-  version "1.0.0"
-  resolved "https://npm.dreamworld.solutions/repository/npm/@dw/hammerjs/-/hammerjs-1.0.0.tgz#284b348943ca233852ad03ec05751591bc37877d"
-  integrity sha512-vmCRAH6I3+TOyzfCuwP0I6/IUGQkRHgmj9V6MbAgUERyuWNivxLh4tZ6sDKoLZjgTb8LK7HgOO8iHxEmx0HMnA==
-
 "@iarna/cli@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@iarna/cli/-/cli-1.2.0.tgz#0f7af5e851afe895104583c4ca07377a8094d641"
