@@ -1,0 +1,27 @@
+{
+  "name": "@dreamworld/hammer-events",
+  "version": "0.0.0-development",
+  "description": "A LitElement Mixin used to listen for the hammer events",
+  "main": "hammer-events.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:DreamworldSolutions/hammer-events.git"
+  },
+  "author": "Shakil Mansuri",
+  "license": "MIT",
+  "dependencies": {
+    "@dw/hammerjs": "^1.0.0",
+    "lodash-es": "^4.17.11"
+  },
+  "devDependencies": {
+    "semantic-release": "beta",
+    "lit-element": "2.2.1",
+    "@webcomponents/webcomponentsjs": "2.2.10"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
