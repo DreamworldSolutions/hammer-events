@@ -109,8 +109,8 @@ export const hammerEvents = (baseElement) => class extends baseElement {
         self._hammerEventsHadlers[event] = [];
       }
 
-      self._hammerEventsHadlers[event].push({ hammerInstance: hammerInstance, handler: handler });
       self._bindHammerSingleEvent(hammerInstance, event, handler);
+      self._hammerEventsHadlers[event].push({ hammerInstance, handler});
     });
   }
 
@@ -164,9 +164,8 @@ export const hammerEvents = (baseElement) => class extends baseElement {
             self._hammerLocalEventsHandlers[event] = [];
           }
 
-          self._hammerLocalEventsHandlers[event].push({ hammerInstance: hammerInstance, handler: handler });
-
           self._bindHammerSingleEvent(hammerInstance, event, handler);
+          self._hammerLocalEventsHandlers[event].push({ hammerInstance, handler });
         });
       });
     });
