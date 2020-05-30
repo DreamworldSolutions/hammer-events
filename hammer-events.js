@@ -5,9 +5,8 @@ import forEach from 'lodash-es/forEach';
 export const hammerEvents = (baseElement) => class extends baseElement {
   constructor() {
     super();
-    this._hammerEventsHadlers = [];
+    this._hammerEventsHadlers = {};
     this._hammerLocalEventsHandlers = {}
-    this._hammer = null;
   }
 
   static get properties() {
@@ -15,17 +14,17 @@ export const hammerEvents = (baseElement) => class extends baseElement {
 
       /**
        * Host element hammer events are bind.
-       * Passed event models
-       * E.g: ['tap', 'swipe', 'press']
+       * Passed event has(event as a key and value as event options).
+       * E.g: {'tap': {}, 'swipe': {}}
        */
       hammerEvents: {
-        type: Array
+        type: Object
       },
 
       /**
        * Local element hammer events are bind.
-       * Passed event has(event as a key and value as a selectors).
-       * e.g.: {'tap': ['.loading', '#container', 'paper-button']}
+       * Passed event has(event as a key and value as a selectors and event options).
+       * e.g.: {'tap': {'selectors': ['.loading', '#container', 'paper-button'], options: {}}}
        */
       hammerLocalEvents: {
         type: Object
@@ -95,13 +94,14 @@ export const hammerEvents = (baseElement) => class extends baseElement {
   _bindHammerEvents() {
     let self = this;
     self._unbindHammerEvents();
-    if (!isArray(self.hammerEvents) || isEmpty(self.hammerEvents)) {
+    if (isEmpty(self.hammerEvents)) {
       return;
     }
 
-    self._hammer = new Hammer(self);
-    forEach(self.hammerEvents, (event) => {
-      self._hammer.get(event);
+    forEach(self.hammerEvents, (options, event) => {
+      options = options || {};
+      let hammerInstance = new Hammer(self);
+      hammerInstance.get(event);
       let handler = (e) => {
         self.dispatchEvent(new CustomEvent(event, { detail: { event: e }, bubbles: false, composed: true }));
       }
@@ -110,8 +110,8 @@ export const hammerEvents = (baseElement) => class extends baseElement {
         self._hammerEventsHadlers[event] = [];
       }
 
-      self._hammerEventsHadlers[event].push(handler);
-      self._bindHammerSingleEvent(self._hammer, event, handler);
+      self._hammerEventsHadlers[event].push({ hammerInstance: hammerInstance, handler: handler });
+      self._bindHammerSingleEvent(hammerInstance, event, handler);
     });
   }
 
@@ -120,17 +120,22 @@ export const hammerEvents = (baseElement) => class extends baseElement {
    */
   _unbindHammerEvents() {
     let self = this;
-    if (self._hammer) {
-      forEach(self._hammerEventsHadlers, (aHandlers, event) => {
-        aHandlers = aHandlers || [];
-        forEach(aHandlers, (handler) => {
-          self._unbindHammerSingleEvent(self._hammer, event, handler);
-        });
-      });
-      self._hammer.destroy && self._hammer.destroy();
-      self._hammer = null;
-      self._hammerEventsHadlers = null;
+    if (isEmpty(self._hammerEventsHadlers)) {
+      return;
     }
+    forEach(self._hammerEventsHadlers, (aHammerInstance, event) => {
+      aHammerInstance = aHammerInstance || [];
+      forEach(aHammerInstance, (value) => {
+        let hammerInstance = value && value.hammerInstance;
+        let handler = value && value.handler;
+        if (handler && hammerInstance && event) {
+          self._unbindHammerSingleEvent(hammerInstance, event, handler);
+          hammerInstance.destroy && hammerInstance.destroy();
+        }
+      });
+    });
+
+    self._hammerEventsHadlers = null;
   }
 
   /**
@@ -144,12 +149,13 @@ export const hammerEvents = (baseElement) => class extends baseElement {
       return;
     }
 
-    forEach(self.hammerLocalEvents, (aElements, event) => {
-      aElements = aElements || [];
+    forEach(self.hammerLocalEvents, (value, event) => {
+      let aElements = value.selectors || [];
+      let options = value.options || {};
       forEach(aElements, (selector) => {
         let aSelectorElement = self.shadowRoot.querySelectorAll(selector) || self.querySelectorAll(selector) || [];
         forEach(aSelectorElement, (element) => {
-          let hammerInstance = new Hammer(element);
+          let hammerInstance = new Hammer(element, options);
           hammerInstance.get(event);
           let handler = (e) => {
             element.dispatchEvent(new CustomEvent(event, { detail: { event: e }, bubbles: false, composed: true }));
