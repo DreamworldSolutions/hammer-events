@@ -1,4 +1,4 @@
-import Hammer from '@dremworld/hammerjs';
+import Hammer from '@dreamworld/hammerjs';
 import isEmpty from 'lodash-es/isEmpty';
 import forEach from 'lodash-es/forEach';
 export const hammerEvents = (baseElement) => class extends baseElement {
