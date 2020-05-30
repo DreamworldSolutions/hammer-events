@@ -13,13 +13,11 @@
   "author": "Shakil Mansuri",
   "license": "MIT",
   "dependencies": {
-    "@dremworld/hammerjs": "^1.0.0",
+    "@dreamworld/hammerjs": "^1.0.0",
     "lodash-es": "^4.17.11"
   },
   "devDependencies": {
-    "semantic-release": "beta",
-    "lit-element": "2.2.1",
-    "@webcomponents/webcomponentsjs": "2.2.10"
+    "semantic-release": "17.0.8"
   },
   "publishConfig": {
     "access": "public"
