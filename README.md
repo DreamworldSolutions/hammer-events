@@ -29,11 +29,19 @@ class SampleElement extends hammerEvents(LitElement) {
   constructor() {
     super();
 
-    //Host element hammer event binding.
-    this.hammerEvents = ['tap'];
+    /**
+     * Host element hammer events are bind.
+     * Passed event has(event as a key and value as event options).
+     * E.g: {'tap': {}, 'swipe': {}}
+     */
+    this.hammerEvents = {'tap': {}, 'swipe': {}};
 
-    //Local dom hammer event binding.
-    this.hammerLocalEvents = {'swipe': ['.loading']};
+    /**
+     * Local element hammer events are bind.
+     * Passed event has(event as a key and value as a selectors and event options).
+     * e.g.: {'tap': {'selectors': ['.loading', '#container', 'paper-button'], options: {}}}
+     */
+    this.hammerLocalEvents = {'swipe': {'selectors': ['.loading']}, 'options': {}};
   }
 
   //Called super class connectedCallback method because `hammerevents` is bind `connectedCallback` method.
