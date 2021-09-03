@@ -1,6 +1,6 @@
 # hammer-events
 A LitElement Mixin used to listen for the hammer events
-[hammerjs](https://hammerjs.github.io/),
+[hammerjs](https://hammerjs.github.io/).
 
 ## Usage
 
@@ -18,14 +18,6 @@ A LitElement Mixin used to listen for the hammer events
 import { hammerEvents } from '@dremworld/hammer-events';
 
 class SampleElement extends hammerEvents(LitElement) {
-  render() {
-    return html`
-      <div class="loading">
-        <div class="test">horizontal layout center alignment</div>
-      </div>
-    `;
-  }
-
   constructor() {
     super();
 
@@ -41,7 +33,7 @@ class SampleElement extends hammerEvents(LitElement) {
      * Passed event has(event as a key and value as a selectors and event options).
      * e.g.: {'tap': {'selectors': ['.loading', '#container', 'paper-button'], options: {}}}
      */
-    this.hammerLocalEvents = {'swipe': {'selectors': ['.loading']}, 'options': {}};
+    this.hammerLocalEvents = {'tap': {'selectors': ['.loading']}, 'options': {}};
   }
 
   //Called super class connectedCallback method because `hammerevents` is bind `connectedCallback` method.
@@ -52,6 +44,18 @@ class SampleElement extends hammerEvents(LitElement) {
       console.log("tap event triggered");
     });
   }
+
+  render() {
+    return html`
+      <div class="loading" @tap=${this.__onLoadingTap}>
+        <div class="test">Loading..</div>
+      </div>
+    `;
+  }
+
+  __onLoadingTap() {
+    console.log("tap on loading...");
+  }
 }
 customElements.define('sample-element', SampleElement);
 ```
@@ -60,4 +64,4 @@ customElements.define('sample-element', SampleElement);
 | Name | Description |  
 | :------- | ----: |
 | hammerRefresh() |  Re-bind local element events. It's mainly used If after randered the local dom you can simpy call this method. |
-| hammerdestroy() | Destroy hammer events for local eleemnt and also host events. |
+| hammerDestroy() | Destroy hammer events for local eleemnt and also host events. |

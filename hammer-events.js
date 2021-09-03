@@ -42,8 +42,17 @@ export const hammerEvents = (baseElement) => class extends baseElement {
   /**
    * Destroy all event of hammer.
    * @public
+   * @deprecated
    */
   hammerdestroy() {
+    this.hammerDestroy();
+  }
+  
+  /**
+   * Destroy all event of hammer.
+   * @public
+   */
+  hammerDestroy() {
     this._unbindHammerEvents();
     this._unbindHammerLocalEvents();
   }
@@ -60,7 +69,7 @@ export const hammerEvents = (baseElement) => class extends baseElement {
   }
 
   disconnectedCallback() {
-    this.hammerdestroy();
+    this.hammerDestroy();
     super.disconnectedCallback && super.disconnectedCallback();
   }
 
