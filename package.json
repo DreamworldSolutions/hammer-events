@@ -17,7 +17,7 @@
     "lodash-es": "^4.17.11"
   },
   "devDependencies": {
-    "semantic-release": "17.0.8"
+    "semantic-release": "19.0.3"
   },
   "publishConfig": {
     "access": "public"
