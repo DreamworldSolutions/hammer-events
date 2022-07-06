@@ -3,7 +3,7 @@ A LitElement Mixin used to listen for the hammer events
 [hammerjs](https://hammerjs.github.io/).
 
 ## Usage
-
+> Note: Use hammer events only when it's required actually. Instead use browser's default events like. `click`, `dblclick`, `pointerdown` etc...
 ### Installation
 ```
   npm install @dremworld/hammer-events;
